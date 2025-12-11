@@ -20,7 +20,7 @@ namespace ProyectofinalLadoCliente.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("API Conversion está activa");
+            return Ok();
         }
 
 
@@ -52,3 +52,4 @@ namespace ProyectofinalLadoCliente.Controllers
 
     }
 }
+
