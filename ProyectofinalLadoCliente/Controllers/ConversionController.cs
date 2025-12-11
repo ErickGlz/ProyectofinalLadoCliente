@@ -16,8 +16,7 @@ namespace ProyectofinalLadoCliente.Controllers
             _conversionService = new ConversionService();
         }
 
-        // No necesitas GET Index con vista en API
-        // Puedes eliminar o dejarlo para verificar que el API está vivo:
+      
         [HttpGet]
         public IActionResult Get()
         {
