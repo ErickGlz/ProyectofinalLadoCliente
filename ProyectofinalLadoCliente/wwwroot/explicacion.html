@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Explicación General - Conversor de Bases</title>
+    <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+    <main>
+        <h1>Explicación General de Sistemas Numéricos</h1>
+        <section>
+            <h2>¿Qué es un sistema numérico?</h2>
+            <p>
+                Un sistema numérico es una forma de representar números utilizando un conjunto de símbolos o dígitos.
+                Los más comunes son:
+            </p>
+            <ul>
+                <li><strong>Binario (Base 2):</strong> Usa solo los dígitos 0 y 1.</li>
+                <li><strong>Decimal (Base 10):</strong> El sistema que usamos habitualmente, con dígitos del 0 al 9.</li>
+                <li><strong>Octal (Base 8):</strong> Usa los dígitos del 0 al 7.</li>
+                <li><strong>Hexadecimal (Base 16):</strong> Usa dígitos del 0 al 9 y letras de la A a la F.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>¿Cómo se hacen las conversiones?</h2>
+            <p>
+                Para convertir un número de una base a otra, generalmente se hace en dos pasos:
+            </p>
+            <ol>
+                <li>Convertir el número original a decimal (base 10).</li>
+                <li>Convertir ese número decimal a la base destino deseada.</li>
+            </ol>
+            <p>
+                Por ejemplo, para convertir el número binario <code>1011</code> a hexadecimal:
+            </p>
+            <ul>
+                <li>Primero, se convierte <code>1011</code> de binario a decimal: 11.</li>
+                <li>Luego, se convierte 11 de decimal a hexadecimal: <code>B</code>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Importancia práctica</h2>
+            <p>
+                Estos sistemas se usan en programación, electrónica digital, redes, y muchas áreas tecnológicas.
+                Entender cómo convertir entre ellos es fundamental para desarrolladores y técnicos.
+            </p>
+        </section>
+
+        <nav>
+            <a href="index.html">← Volver al Inicio</a>
+            <a href="conversion.html">Ir al Conversor →</a>
+        </nav>
+
+      
+    </main>
+
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Página de explicación cargada correctamente.');
+
+
+            const btnVolver = document.getElementById('btnVolver');
+            btnVolver.addEventListener('click', () => {
+                location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

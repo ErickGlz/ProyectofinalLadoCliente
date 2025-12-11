@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resultado de la Conversión</title>
+    <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+    <main class="app-card">
+        <h1>Resultado de la Conversión</h1>
+
+        <section id="resultado-final">
+            <h2>Resultado:</h2>
+            <p id="resultado"></p>
+        </section>
+
+        <section id="simulacion-pasos">
+            <h2>Pasos de la Conversión:</h2>
+            <ul id="lista-pasos"></ul>
+        </section>
+
+        <section id="estadisticas">
+            <h2>Estadísticas:</h2>
+            <p><strong>Total de pasos:</strong> <span id="total-pasos"></span></p>
+            <p><strong>Operaciones realizadas:</strong> <span id="operaciones"></span></p>
+        </section>
+
+        <button id="btnVolver">Volver a convertir</button>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const resultado = sessionStorage.getItem("resultadoFinal");
+            const pasos = JSON.parse(sessionStorage.getItem("pasosConversion") || "[]");
+            const totalPasos = sessionStorage.getItem("totalPasosConversion");
+            const operaciones = sessionStorage.getItem("operacionesConversion");
+
+            if (!resultado) {
+                location.href = "conversion.html";
+                return;
+            }
+
+            document.getElementById("resultado").textContent = resultado;
+
+            const listaPasos = document.getElementById("lista-pasos");
+            pasos.forEach(paso => {
+                const li = document.createElement("li");
+                li.textContent = `Paso ${paso.PasoNumero}: ${paso.Descripcion} → ${paso.ValorIntermedio}`;
+                listaPasos.appendChild(li);
+            });
+
+            document.getElementById("total-pasos").textContent = totalPasos || "N/A";
+            document.getElementById("operaciones").textContent = operaciones || "N/A";
+        });
+
+        document.getElementById("btnVolver").addEventListener("click", () => {
+            location.href = "conversion.html";
+        });
+    </script>
+</body>
+</html>

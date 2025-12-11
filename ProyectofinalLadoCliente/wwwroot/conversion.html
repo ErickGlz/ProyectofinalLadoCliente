@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conversor de Bases</title>
+    <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+    <main class="app-card">
+        <header class="quiz-header">
+            <h1 class="quiz-title">Conversor de Bases</h1>
+        </header>
+
+        <section class="conversion-form">
+            <form id="conversionForm">
+                <label for="numeroOriginal">Número original:</label><br />
+                <input type="text" id="numeroOriginal" name="numeroOriginal" required autocomplete="off" /><br /><br />
+
+                <label for="baseOrigen">Base origen (2-36):</label><br />
+                <input type="number" id="baseOrigen" name="baseOrigen" min="2" max="36" required /><br /><br />
+
+                <label for="baseDestino">Base destino (2-36):</label><br />
+                <input type="number" id="baseDestino" name="baseDestino" min="2" max="36" required /><br /><br />
+
+                <button type="submit" class="option-button">Convertir</button>
+            </form>
+        </section>
+
+        <section class="resultado-container" style="margin-top: 1.5rem; display:none;">
+            <h2>Resultado de la Conversión</h2>
+            <p><strong>Número Original:</strong> <span id="resNumeroOriginal"></span></p>
+            <p><strong>Base Origen:</strong> <span id="resBaseOrigen"></span></p>
+            <p><strong>Base Destino:</strong> <span id="resBaseDestino"></span></p>
+            <p><strong>Resultado Final:</strong> <span id="resResultadoFinal" style="font-weight: bold;"></span></p>
+
+            <h3>Pasos de la Conversión</h3>
+            <ul id="listaPasos" style="text-align:left; max-height: 150px; overflow-y: auto; background:#f7f7f7; padding: 0.5rem; border-radius: 5px;"></ul>
+
+            <h3>Estadísticas</h3>
+            <p><strong>Total de Pasos:</strong> <span id="resTotalPasos"></span></p>
+            <!-- Tiempo eliminado -->
+            <p><strong>Operaciones Realizadas:</strong> <span id="resOperaciones"></span></p>
+        </section>
+
+        <nav style="margin-top: 2rem;">
+            <a href="index.html">← Volver al Inicio</a>
+            <a href="explicacion.html">¿Cómo funcionan las conversiones? →</a>
+        </nav>
+    </main>
+
+    <script>
+        const form = document.getElementById('conversionForm');
+        const resultadoSection = document.querySelector('.resultado-container');
+        const resNumeroOriginal = document.getElementById('resNumeroOriginal');
+        const resBaseOrigen = document.getElementById('resBaseOrigen');
+        const resBaseDestino = document.getElementById('resBaseDestino');
+        const resResultadoFinal = document.getElementById('resResultadoFinal');
+        const listaPasos = document.getElementById('listaPasos');
+        const resTotalPasos = document.getElementById('resTotalPasos');
+        const resOperaciones = document.getElementById('resOperaciones');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const numeroOriginal = form.numeroOriginal.value.trim().toUpperCase();
+            const baseOrigen = Number(form.baseOrigen.value);
+            const baseDestino = Number(form.baseDestino.value);
+
+            if (!numeroOriginal) {
+                alert('Debe ingresar un número.');
+                return;
+            }
+            if (baseOrigen < 2 || baseOrigen > 36 || baseDestino < 2 || baseDestino > 36) {
+                alert('Las bases deben estar entre 2 y 36.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/conversion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        NumeroOriginal: numeroOriginal,
+                        BaseOrigen: baseOrigen,
+                        BaseDestino: baseDestino
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al procesar la conversión');
+                }
+
+                const data = await response.json();
+
+                resNumeroOriginal.textContent = data.simulacion.numeroOriginal;
+                resBaseOrigen.textContent = data.simulacion.baseOrigen;
+                resBaseDestino.textContent = data.simulacion.baseDestino;
+                resResultadoFinal.textContent = data.simulacion.resultadoFinal;
+
+                listaPasos.innerHTML = '';
+                data.simulacion.pasos.forEach(paso => {
+                    const li = document.createElement('li');
+                    li.textContent = `Paso ${paso.pasoNumero}: ${paso.descripcion} — ${paso.valorIntermedio}`;
+                    listaPasos.appendChild(li);
+                });
+
+                resTotalPasos.textContent = data.estadisticas.totalPasos;
+                // Tiempo eliminado
+                resOperaciones.textContent = data.estadisticas.operacionesRealizadas;
+
+                resultadoSection.style.display = 'block';
+                resultadoSection.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                alert('Hubo un error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
